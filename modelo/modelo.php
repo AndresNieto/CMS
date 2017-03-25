@@ -136,15 +136,43 @@ function create_publication(){
 
         $foto=$_FILES["foto"]["name"];
         $ruta=$_FILES['foto']['tmp_name'];echo $ruta;
-        $destino="./img/blog/".$foto;
+        $destino="./../site/images/noticias/".$foto;
         move_uploaded_file($ruta, $destino);
         
-        $consulta = "INSERT INTO publicacion VALUES('','$titulo_de_publicacion','$contenido_de_publicacion','$destino')";
+        $consulta = "INSERT INTO publicacion VALUES('','$titulo_de_publicacion','$contenido_de_publicacion','$destino','$foto')";
         mysqli_query($conexion, $consulta);
+
+        define('ROOT', __DIR__);
+        $nombre_archivo = ROOT."..\vistas\prueba.php"; 
+        if(file_exists($nombre_archivo)){
+            $mensaje = "El Archivo $nombre_archivo se ha modificado";
+        }
+     
+        else   {
+            $mensaje = "El Archivo $nombre_archivo se ha creado";
+        }
+
+        if($archivo = fopen($nombre_archivo, "a"))
+        {
+            if(fwrite($archivo, date("d m Y H:m:s"). " ". $mensaje. "\n"))
+            {
+                echo "Se ha ejecutado correctamente";
+            }
+            else
+            {
+                echo "Ha habido un problema al crear el archivo";
+            }
+     
+            fclose($archivo);
+        }
+
+
+
+
         cerrar_conexion_db($conexion);       
     }
 
-   header("Location: /CMS/index.php/home?enter_publication=succes");
+   //header("Location: /CMS/index.php/home?enter_publication=succes");
 
 }
 

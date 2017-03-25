@@ -11,7 +11,7 @@ function user_action(){
 require "vistas/user.php";
 }
 function enter_publication_action(){
-	$pub=consult_publication();
+	$pub=consult_publication();	
 	$pub1=consult_body_publication();
 require "vistas/enter_publication.php";
 }
