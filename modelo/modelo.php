@@ -138,33 +138,73 @@ function create_publication(){
         $ruta=$_FILES['foto']['tmp_name'];echo $ruta;
         $destino="./../site/images/noticias/".$foto;
         move_uploaded_file($ruta, $destino);
-        
-        $consulta = "INSERT INTO publicacion VALUES('','$titulo_de_publicacion','$contenido_de_publicacion','$destino','$foto')";
+        $ruta_file=date("d m Y")."".$titulo_de_publicacion;
+        $url = preg_replace('[\s+]','',$ruta_file);
+        $consulta = "INSERT INTO publicacion VALUES('','$titulo_de_publicacion','$contenido_de_publicacion','$destino','$foto','$url')";
         mysqli_query($conexion, $consulta);
-
+        
         define('ROOT', __DIR__);
-        $nombre_archivo = ROOT."..\vistas\prueba.php"; 
-        if(file_exists($nombre_archivo)){
-            $mensaje = "El Archivo $nombre_archivo se ha modificado";
-        }
-     
-        else   {
-            $mensaje = "El Archivo $nombre_archivo se ha creado";
-        }
+        $nombre_archivo = ROOT."..\\..\\..\\site\\vistas\\".$url.".php"; 
+        if(file_exists($nombre_archivo)){$mensaje = "El Archivo $nombre_archivo se ha modificado";}         
+        else{$mensaje = "El Archivo $nombre_archivo se ha creado";}
 
-        if($archivo = fopen($nombre_archivo, "a"))
-        {
-            if(fwrite($archivo, date("d m Y H:m:s"). " ". $mensaje. "\n"))
+        if($archivo = fopen($nombre_archivo, "a")){
+            //if(fwrite($archivo, date("d m Y H:m:s"). " ". $mensaje. "\n"))
+            if(fwrite($archivo, '
+            <?php ob_start() ?>   
+            <section class="slice bg-white">
+                <div class="wp-section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-9">
+                                <div class="post-item">
+                                    <div class="post-meta-top">
+                                        <div class="post-image">
+                                            <a href="images/temp/post-img-2.jpg" class="theater" title="Shoreline">
+                                                <img src="../images/noticias/'.$foto.'" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="post-content">
+                                        <h2 class="post-title"><a href="#" hidefocus="true" style="outline: none;">'.$titulo_de_publicacion.'</a></h2>
+                                        <span class="post-author">WRITTEN BY <a href="#" hidefocus="true" style="outline: none;">James Franco</a></span>
+                                        <div class="post-tags">Posted in <a href="#" hidefocus="true" style="outline: none;">HOTELS</a>, <a href="#" hidefocus="true" style="outline: none;">SPECIAL PROMOS</a>, <a href="#" hidefocus="true" style="outline: none;">SUMMER</a></div>
+                                        <div class="clearfix"></div>
+                                        <div class="post-desc">
+                                            <p>
+                                            '.$contenido_de_publicacion.'
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <?php $contenido=ob_get_clean(); ?>
+            <?php include "plantilla/plantillabase.php"; ?>'))
             {
                 echo "Se ha ejecutado correctamente";
             }
             else
             {
                 echo "Ha habido un problema al crear el archivo";
-            }
+            }}
      
             fclose($archivo);
-        }
+
+            $nombre_archivo1 = ROOT."..\\..\\..\\site\\index.php"; 
+             if($archivo1 = fopen($nombre_archivo1, "a")){
+            //if(fwrite($archivo, date("d m Y H:m:s"). " ". $mensaje. "\n"))
+                if(fwrite($archivo1, '<?php
+                    if($uri=="/site/index.php/'.$url.'"){
+                         notices_action("'.$url.'");
+                        }?> ')){echo "Se ha ejecutado correctamente";}}
+            fclose($archivo1);
+        
 
 
 
