@@ -31,7 +31,10 @@
     <link href="../bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="../bower_components/switch/bootstrap-switch.css">
-
+   
+    <script src="../tinymce /tinymce.min.js"></script>
+  <script>tinymce.init({ selector:'textarea' });</script>
+   
 
 
    
@@ -161,7 +164,7 @@
     <script src="../bower_components/raphael/raphael-min.js"></script>
     <script src="../bower_components/morrisjs/morris.min.js"></script>
     <script src="../js/morris-data.js"></script>
-
+    <script src="../js/ckeditor.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
     <script>

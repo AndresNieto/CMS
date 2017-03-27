@@ -18,7 +18,10 @@
                    </div>
                    <div class="col-md-12"><br>
                        <label>Contenido</label>
-                       <textarea class="form-control" id="" name="pub_content" rows="5" required></textarea>
+                       <textarea class="form-control" id="pub_content" name="pub_content" rows="5" required></textarea>
+                       <script type="text/javascript">
+                          CKEDITOR.replace("pub_content");
+                       </script>
                    </div>   
                </div>
            

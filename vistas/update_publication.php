@@ -13,7 +13,7 @@
                       
             <?php foreach($publ as $publ){ ?> 
               <div class="col-md-6">
-                <img src=".<?php echo $publ['image'];?>" width="100"><br><br>
+                <img src=".<?php echo $publ['image'];?>" width="480"><br><br>
                 <input class="form-control" name="foto" id="foto" type="file"><br> 
               </div>
               <div class="col-md-6">
@@ -21,14 +21,17 @@
                  <label>Titulo</label> 
                  <input class="form-control" id="" name="pub_tittle" required value="<?php echo $publ['title'];?>"><br>
                  <label>Contenido</label>
-                 <textarea class="form-control" id="" name="pub_content" rows="5" required><?php echo $publ['body'];?></textarea>                 
+                 <textarea class="form-control" id="" name="pub_content" rows="5" required><?php echo $publ['body'];?></textarea>   
+                 <script type="text/javascript">
+                          CKEDITOR.replace("pub_content");
+                  </script>            
              </div>
             </div>
             <?php }}  ?>
             <div class="panel-footer">
               <center>
               <button type="submit" class="btn btn-success">Modificar</button>
-              <a type="button"class="btn btn-primary " data-toggle="modal" data-dismiss="modal">Cancelar</a>
+              <a type="button"class="btn btn-primary " href="/CMS/index.php/publicaciones">Cancelar</a>
               </center>
             </div>
           </form> 

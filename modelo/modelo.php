@@ -33,13 +33,13 @@ function login(){
                 //$_SESSION['name']=$User;
                 //$_SESSION['tipo']=$Tipo;
                 echo '<script>sessionStorage.setItem("Nombre","AndresNieto");sessionStorage.setItem("Contraseña","anieto95");
-                    </script>';
-                header('Location: /CMS/index.php/publicaciones');
+                    </script>';                
             }
             else {
                  echo '<script>alert("Clave incorrecta, digítela nuevamente");</script>;';
                  header('Location: /CMS/index.php/home');
             }
+            if($Password==$pass){header('Location: /CMS/index.php/publicaciones');}
         }
     }
 }
@@ -55,17 +55,7 @@ function consult_user(){
         return $user;
 }
 
-function consult_publication(){
-        $conexion=conectar_base_de_datos();
-        $consulta="SELECT * FROM publicacion LIMIT 0,50";
-        $resultado=mysqli_query($conexion,$consulta);
-        $pub=array();
-        while($fila=mysqli_fetch_assoc($resultado)){
-            $pub[]=$fila;
-        }
-        cerrar_conexion_db($conexion);
-        return $pub ;
-}
+
 function consult_body_publication(){
         $conexion=conectar_base_de_datos();
         $consulta="SELECT body FROM publicacion LIMIT 0,50";
@@ -127,6 +117,17 @@ function view_publication(){
         return $publ;
 }
 
+function consult_publication(){
+        $conexion=conectar_base_de_datos();
+        $consulta="SELECT * FROM publicacion LIMIT 0,50";
+        $resultado=mysqli_query($conexion,$consulta);
+        $pub=array();
+        while($fila=mysqli_fetch_assoc($resultado)){
+            $pub[]=$fila;
+        }
+        cerrar_conexion_db($conexion);
+        return $pub ;
+}
 
 function create_publication(){
         if($_SERVER['REQUEST_METHOD']=="POST"){
@@ -136,7 +137,7 @@ function create_publication(){
 
         $foto=$_FILES["foto"]["name"];
         $ruta=$_FILES['foto']['tmp_name'];echo $ruta;
-        $destino="./../site/images/noticias/".$foto;
+        $destino="imagesavealpha(image, saveflag)/noticias/".$foto;
         move_uploaded_file($ruta, $destino);
         $ruta_file=date("d m Y")."".$titulo_de_publicacion;
         $url = preg_replace('[\s+]','',$ruta_file);
@@ -163,13 +164,13 @@ function create_publication(){
                                         <div class="post-image">
                                             <a href="images/temp/post-img-2.jpg" class="theater" title="Shoreline">
                                                 <img src="../images/noticias/'.$foto.'" alt="">
-                                            </a>
+                                            </a><br>
+                                            <div class="fb-share-button" data-href="http://elpapaenvillavicencio.com/site/index.php/'.$url.'" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Compartir</a></div>
                                         </div>
                                     </div>
                                     <div class="post-content">
                                         <h2 class="post-title"><a href="#" hidefocus="true" style="outline: none;">'.$titulo_de_publicacion.'</a></h2>
-                                        <span class="post-author">WRITTEN BY <a href="#" hidefocus="true" style="outline: none;">James Franco</a></span>
-                                        <div class="post-tags">Posted in <a href="#" hidefocus="true" style="outline: none;">HOTELS</a>, <a href="#" hidefocus="true" style="outline: none;">SPECIAL PROMOS</a>, <a href="#" hidefocus="true" style="outline: none;">SUMMER</a></div>
+                                        <span class="post-author">Escrito Por: <a href="#" hidefocus="true" style="outline: none;">Oficina de Comunicaciones</a></span>                                        
                                         <div class="clearfix"></div>
                                         <div class="post-desc">
                                             <p>
@@ -204,17 +205,36 @@ function create_publication(){
                          notices_action("'.$url.'");
                         }?> ')){echo "Se ha ejecutado correctamente";}}
             fclose($archivo1);
-        
+        cerrar_conexion_db($conexion);   
+        //header("Location: /CMS/index.php/home?enter_publication=succes");
 
-
-
-
-        cerrar_conexion_db($conexion);       
-    }
-
-   //header("Location: /CMS/index.php/home?enter_publication=succes");
-
+    }    
 }
+
+function update_publication(){        
+        $conexion=conectar_base_de_datos();
+        $id = $_POST['id'];
+        $titulo_de_publicacion= $_POST['pub_tittle'];
+        $contenido_de_publicacion= $_POST['pub_content'];
+
+        $foto=$_FILES["foto"]["name"]; echo "$foto";
+        $ruta=$_FILES['foto']['tmp_name'];echo $ruta;
+        $destino="./../site/images/noticias/".$foto;
+        move_uploaded_file($ruta, $destino);
+        $ruta_file=date("d m Y")."".$titulo_de_publicacion;
+        $url = preg_replace('[\s+]','',$ruta_file);
+         if($foto!="") { echo "entro"; $consulta="UPDATE publicacion SET title='$titulo_de_publicacion', body='$contenido_de_publicacion',image='$destino' ,name_image='$foto' WHERE id='$id'";}
+         else{$consulta="UPDATE publicacion SET title='$titulo_de_publicacion', body='$contenido_de_publicacion' WHERE id='$id'";}
+
+        
+        $resultado=mysqli_query($conexion,$consulta);       
+        cerrar_conexion_db($conexion);
+    
+        header("Location: /CMS/index.php/home?update_publication=succes");
+        
+}
+
+   
 
 function create_course(){
         if($_SERVER['REQUEST_METHOD']=="POST"){
@@ -379,24 +399,7 @@ function update_company(){
        header("Location: /CMS/index.php/suempresa");
         
 }
-function update_publication(){        
-        $conexion=conectar_base_de_datos();
-        $id = $_POST['id'];
-        $titulo_de_publicacion= $_POST['pub_tittle'];
-        $contenido_de_publicacion= $_POST['pub_content'];
 
-        $foto= $_FILES["foto"]["name"];
-        $ruta= $_FILES["foto"]["tmp_name"];
-        $destino="./img/blog/".$foto;
-        move_uploaded_file($ruta, $destino);
-
-        $consulta="UPDATE publicacion SET title='$titulo_de_publicacion', body='$contenido_de_publicacion',image='$destino' WHERE id='$id'";
-        $resultado=mysqli_query($conexion,$consulta);  echo $resultado;      
-        cerrar_conexion_db($conexion);
-    
-        header("Location: /CMS/index.php/home?update_publication=succes");
-        
-}
 function delete_publication(){        
         $conexion=conectar_base_de_datos();
         $id = $_POST['id'];  
