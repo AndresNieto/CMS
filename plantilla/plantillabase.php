@@ -32,9 +32,7 @@
 
     <link rel="stylesheet" type="text/css" href="../bower_components/switch/bootstrap-switch.css">
    
-    <script src="../tinymce /tinymce.min.js"></script>
-  <script>tinymce.init({ selector:'textarea' });</script>
-   
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>   
 
 
    

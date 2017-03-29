@@ -1,1 +1,0 @@
-<?php echo "texto qe contiene el nuevo archivo"; ?>

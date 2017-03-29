@@ -6,15 +6,35 @@
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title" id="project-12-label"><center>Nuevo</center></h4>
       </div><form action="/CMS/index.php/enter_publication_model" method="post" enctype="multipart/form-data">
-      <div class="modal-body">
-        
+      <div class="modal-body">        
            
                <div class="row">
-                   <div class="col-md-12">
-                       <label>Titulo</label>
-                       <input class="form-control" id="" name="pub_tittle" required><br>
-                       <label>Foto</label>
-                       <input class="form-control" name="foto" id="foto" type="file"></input>
+                   <div class="col-md-6">
+                      <label>Fecha</label>
+                       <input class="form-control" name="fecha" id="fecha" type="date" required></input>
+                   </div>
+                   <div class="col-md-6">
+                      <label>Titulo</label>
+                      <input class="form-control" id="" name="pub_tittle" required><br>
+                   </div>
+                   <div class="col-md-6">
+                      <label>Foto</label>
+                       <input class="form-control" name="foto" id="foto" type="file" required></input>
+                   </div>
+                   <div class="col-md-6">                         
+                       <label>Autor Foto</label>
+                       <input class="form-control" name="autor" id="autoro" type="text" required></input>
+                   </div>
+                   <div class="col-md-12"><br>
+                      <label>Categoría</label>
+                      <select class="form-control" name="categoria">
+                        <option>Papa Francisco</option>
+                        <option>Voluntariado</option>
+                        <option>Logística</option>
+                        <option>Comisión Pastoral</option>
+                        <option>Comisión Liturgica</option>
+                        <option>Comunicaciones</option>
+                      </select>
                    </div>
                    <div class="col-md-12"><br>
                        <label>Contenido</label>
