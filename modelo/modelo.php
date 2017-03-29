@@ -129,91 +129,91 @@ function consult_publication(){
         return $pub ;
 }
 
-function create_publication(){
-        if($_SERVER['REQUEST_METHOD']=="POST"){
-        $conexion=conectar_base_de_datos();
-        $titulo_de_publicacion= $_POST['pub_tittle'];
-        $contenido_de_publicacion= $_POST['pub_content'];
-        $autor_foto=$_POST['autor'];
-        $fecha_publicacion=$_POST['fecha'];
-        $categoria=$_POST['categoria'];
+        function create_publication(){
+                if($_SERVER['REQUEST_METHOD']=="POST"){
+                $conexion=conectar_base_de_datos();
+                $titulo_de_publicacion= $_POST['pub_tittle'];
+                $contenido_de_publicacion= $_POST['pub_content'];
+                $autor_foto=$_POST['autor'];
+                $fecha_publicacion=$_POST['fecha'];
+                $categoria=$_POST['categoria'];
 
-        $foto=$_FILES["foto"]["name"];
-        $ruta=$_FILES['foto']['tmp_name'];echo $ruta;
-        $destino="./../site/images/noticias/".$foto;
-        move_uploaded_file($ruta, $destino);
-        $ruta_file=$fecha_publicacion."".$titulo_de_publicacion;
-        $url = preg_replace('[\s+]','',$ruta_file);
-        $consulta = "INSERT INTO publicacion VALUES('','$titulo_de_publicacion','$contenido_de_publicacion','$destino','$foto','$url','$autor_foto', '$fecha_publicacion','$categoria')";
-        mysqli_query($conexion, $consulta);
-        
-        define('ROOT', __DIR__);
-        $nombre_archivo = ROOT."..\\..\\..\\site\\vistas\\".$url.".php"; 
-        if(file_exists($nombre_archivo)){$mensaje = "El Archivo $nombre_archivo se ha modificado";}         
-        else{$mensaje = "El Archivo $nombre_archivo se ha creado";}
+                $foto=$_FILES["foto"]["name"];
+                $ruta=$_FILES['foto']['tmp_name'];echo $ruta;
+                $destino="./../site/images/noticias/".$foto;
+                move_uploaded_file($ruta, $destino);
+                $ruta_file=$fecha_publicacion."".$titulo_de_publicacion;
+                $url = preg_replace('[\s+]','',$ruta_file);
+                $consulta = "INSERT INTO publicacion VALUES('','$titulo_de_publicacion','$contenido_de_publicacion','$destino','$foto','$url','$autor_foto', '$fecha_publicacion','$categoria')";
+                mysqli_query($conexion, $consulta);
+                
+                define('ROOT', __DIR__);
+                $nombre_archivo = ROOT."..\\..\\..\\site\\vistas\\".$url.".php"; 
+                if(file_exists($nombre_archivo)){$mensaje = "El Archivo $nombre_archivo se ha modificado";}         
+                else{$mensaje = "El Archivo $nombre_archivo se ha creado";}
 
-        if($archivo = fopen($nombre_archivo, "w")){
-            //if(fwrite($archivo, date("d m Y H:m:s"). " ". $mensaje. "\n"))
-            if(fwrite($archivo, '
-            <?php ob_start() ?>   
-            <section class="slice bg-white">
-                <div class="wp-section">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-9">
-                                <div class="post-item">
-                                    <div class="post-meta-top">
-                                        <div class="post-image">
-                                            <a href="images/temp/post-img-2.jpg" class="theater" title="Shoreline">
-                                                <img src="../images/noticias/'.$foto.'" alt="">
-                                                <p>Foto: '.$autor_foto.'</p>
-                                            </a><br>
-                                            <div class="fb-share-button" data-href="http://elpapaenvillavicencio.com/site/index.php/'.$url.'" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Compartir</a></div>
+                if($archivo = fopen($nombre_archivo, "w")){
+                    //if(fwrite($archivo, date("d m Y H:m:s"). " ". $mensaje. "\n"))
+                    if(fwrite($archivo, '
+                    <?php ob_start() ?>   
+                    <section class="slice bg-white">
+                        <div class="wp-section">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-9">
+                                        <div class="post-item">
+                                            <div class="post-meta-top">
+                                                <div class="post-image">
+                                                    <a href="images/temp/post-img-2.jpg" class="theater" title="Shoreline">
+                                                        <img src="../images/noticias/'.$foto.'" alt="">
+                                                        <p>Foto: '.$autor_foto.'</p>
+                                                    </a><br>
+                                                    <div class="fb-share-button" data-href="http://elpapaenvillavicencio.com/site/index.php/'.$url.'" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Compartir</a></div>
+                                                </div>
+                                            </div>
+                                            <div class="post-content">
+                                                <h2 class="post-title"><a href="#" hidefocus="true" style="outline: none;">'.$titulo_de_publicacion.'</a></h2>
+                                                <span class="post-author">'.$fecha_publicacion.' Por: <a href="#" hidefocus="true" style="outline: none;">Comisión de Comunicaciones</a> Categoria: '.$categoria.'</span>                                        
+                                                <div class="clearfix"></div>
+                                                <div class="post-desc">
+                                                    <p>
+                                                    '.$contenido_de_publicacion.'
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <hr>
                                         </div>
                                     </div>
-                                    <div class="post-content">
-                                        <h2 class="post-title"><a href="#" hidefocus="true" style="outline: none;">'.$titulo_de_publicacion.'</a></h2>
-                                        <span class="post-author">'.$fecha_publicacion.' Por: <a href="#" hidefocus="true" style="outline: none;">Comisión de Comunicaciones</a> Categoria: '.$categoria.'</span>                                        
-                                        <div class="clearfix"></div>
-                                        <div class="post-desc">
-                                            <p>
-                                            '.$contenido_de_publicacion.'
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <hr>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-            <?php $contenido=ob_get_clean(); ?>
-            <?php include "plantilla/plantillabase.php"; ?>'))
-            {
-                echo "Se ha ejecutado correctamente";
-            }
-            else
-            {
-                echo "Ha habido un problema al crear el archivo";
-            }}
-     
-            fclose($archivo);
+                    </section>
+                    <?php $contenido=ob_get_clean(); ?>
+                    <?php include "plantilla/plantillabase.php"; ?>'))
+                    {
+                        echo "Se ha ejecutado correctamente";
+                    }
+                    else
+                    {
+                        echo "Ha habido un problema al crear el archivo";
+                    }}
+             
+                    fclose($archivo);
 
-            $nombre_archivo1 = ROOT."..\\..\\..\\site\\index.php"; 
-             if($archivo1 = fopen($nombre_archivo1, "a")){
-            //if(fwrite($archivo, date("d m Y H:m:s"). " ". $mensaje. "\n"))
-                if(fwrite($archivo1, '<?php
-                    if($uri=="/site/index.php/'.$url.'"){
-                         notices_action("'.$url.'");
-                        }?> ')){echo "Se ha ejecutado correctamente";}}
-            fclose($archivo1);
-        cerrar_conexion_db($conexion);   
-        header("Location: /CMS/index.php/home?enter_publication=succes");
+                    $nombre_archivo1 = ROOT."..\\..\\..\\site\\index.php"; 
+                     if($archivo1 = fopen($nombre_archivo1, "a")){
+                    //if(fwrite($archivo, date("d m Y H:m:s"). " ". $mensaje. "\n"))
+                        if(fwrite($archivo1, '<?php
+                            if($uri=="/site/index.php/'.$url.'"){
+                                 notices_action("'.$url.'");
+                                }?> ')){echo "Se ha ejecutado correctamente";}}
+                    fclose($archivo1);
+                cerrar_conexion_db($conexion);   
+                header("Location: /CMS/index.php/home?enter_publication=succes");
 
-    }    
-}
+            }    
+        }
 
 function update_publication(){        
         $conexion=conectar_base_de_datos();
