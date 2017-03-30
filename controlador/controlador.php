@@ -14,6 +14,16 @@ function enter_publication_action(){
 	$pub=consult_publication();		
 require "vistas/enter_publication.php";
 }
+
+function enter_slider_action(){
+	$sli=consult_slider();		
+require "vistas/enter_slider.php";
+}
+function view_slider_action(){
+	$sli=view_slider();
+require "vistas/update_slider.php";
+}
+
 function enter_course_action(){
 	$course=consult_course();
 require "vistas/enter_course.php";
@@ -61,8 +71,14 @@ view_publication();
 function update_publication_model(){
 update_publication();
 }
+function update_slider_model(){
+update_slider();
+}
 function delete_publication_model(){
 delete_publication();
+}
+function delete_slider_model(){
+delete_slider();
 }
 function update_company_model(){
 update_company();

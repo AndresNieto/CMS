@@ -119,7 +119,7 @@ function view_publication(){
 
 function consult_publication(){
         $conexion=conectar_base_de_datos();
-        $consulta="SELECT * FROM publicacion LIMIT 0,50";
+        $consulta="SELECT * FROM publicacion ";
         $resultado=mysqli_query($conexion,$consulta);
         $pub=array();
         while($fila=mysqli_fetch_assoc($resultado)){
@@ -129,7 +129,8 @@ function consult_publication(){
         return $pub ;
 }
 
-        function create_publication(){
+
+function create_publication(){
                 if($_SERVER['REQUEST_METHOD']=="POST"){
                 $conexion=conectar_base_de_datos();
                 $titulo_de_publicacion= $_POST['pub_tittle'];
@@ -139,7 +140,7 @@ function consult_publication(){
                 $categoria=$_POST['categoria'];
 
                 $foto=$_FILES["foto"]["name"];
-                $ruta=$_FILES['foto']['tmp_name'];echo $ruta;
+                $ruta=$_FILES['foto']['tmp_name'];
                 $destino="./../site/images/noticias/".$foto;
                 move_uploaded_file($ruta, $destino);
                 $ruta_file=$fecha_publicacion."".$titulo_de_publicacion;
@@ -238,7 +239,81 @@ function update_publication(){
         
 }
 
-   
+function consult_slider(){
+        $conexion=conectar_base_de_datos();
+        $consulta="SELECT * FROM slider";
+        $resultado=mysqli_query($conexion,$consulta);
+        $sli=array();
+        while($fila=mysqli_fetch_assoc($resultado)){
+            $sli[]=$fila;
+        }
+        cerrar_conexion_db($conexion);
+        return $sli;
+}  
+
+function create_slider(){
+        if($_SERVER['REQUEST_METHOD']=="POST"){
+        $conexion=conectar_base_de_datos();
+        $nombre= $_POST['sli_tittle'];
+        $url=$_POST['url'];     
+        if ($url=="") {$url="#";    };
+        $foto=$_FILES["foto"]["name"];
+        $ruta=$_FILES['foto']['tmp_name'];
+        $destino="./../site/images/slider/".$foto; 
+        move_uploaded_file($ruta, $destino);               
+        $consulta = "INSERT INTO slider VALUES('','$nombre','$url','$destino','$foto')";
+        mysqli_query($conexion, $consulta);                
+        
+        cerrar_conexion_db($conexion);   
+        header("Location: /CMS/index.php/avisos");
+
+    }    
+}
+
+function view_slider(){
+        $conexion=conectar_base_de_datos();
+        $id = $_POST['id'];
+        $consulta="SELECT * FROM slider where id='$id'";
+        $resultado=mysqli_query($conexion,$consulta);
+        $sli=array();
+        while($fila=mysqli_fetch_assoc($resultado)){
+            $sli[]=$fila;
+        }
+        cerrar_conexion_db($conexion);
+        return $sli;
+}
+
+function update_slider(){        
+        $conexion=conectar_base_de_datos();
+        $id = $_POST['id'];
+        $nombre= $_POST['title'];
+        $url= $_POST['url'];
+        if ($url=="") {$url="#";};
+        $foto=$_FILES["foto"]["name"]; 
+        $ruta=$_FILES['foto']['tmp_name'];
+        $destino="./../site/images/slider/".$foto;
+        move_uploaded_file($ruta, $destino);
+       
+         if($foto!="") { $consulta="UPDATE slider SET title='$nombre', url='$url',image='$destino', name_image='$foto' WHERE id='$id'";}
+         else{$consulta="UPDATE slider SET title='$nombre', url='$url' WHERE id='$id'";}
+
+        
+        $resultado=mysqli_query($conexion,$consulta);       
+        cerrar_conexion_db($conexion);
+    
+        header("Location: /CMS/index.php/avisos");
+        
+}
+function delete_slider(){        
+        $conexion=conectar_base_de_datos();
+        $id = $_POST['id'];  
+        $consulta="DELETE FROM slider WHERE id='$id'";
+        $resultado=mysqli_query($conexion,$consulta);  echo $resultado;      
+        cerrar_conexion_db($conexion);
+    
+       header("Location: /CMS/index.php/avisos");
+        
+}
 
 function create_course(){
         if($_SERVER['REQUEST_METHOD']=="POST"){
