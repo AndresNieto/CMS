@@ -24,6 +24,10 @@
      enter_slider_action();   
     } 
 
+    if($uri=="/CMS/index.php/galeria"){
+     enter_galery_action();   
+    } 
+
     if($uri=="/CMS/index.php/suempresa"){
      update_company_action();   
     }  
@@ -103,6 +107,25 @@
 
     if($uri=="/CMS/index.php/delete_slider_model"){
      delete_slider_model();         
+    }
+
+    //Galeria
+    if($uri=="/CMS/index.php/enter_album_model"){
+     enter_album_model();
+    }
+    if($uri=="/CMS/index.php/enter_image_model"){
+     enter_image_model();
+    }
+    if($uri=="/CMS/index.php/update_company_model"){
+     update_company_model();         
+    }
+
+    if($uri=="/CMS/index.php/update_slider_model"){
+     update_slider_model();         
+    }
+
+    if($uri=="/CMS/index.php/delete_album_model"){
+     delete_album_model();         
     }
 
 

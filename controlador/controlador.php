@@ -14,6 +14,11 @@ function enter_publication_action(){
 	$pub=consult_publication();		
 require "vistas/enter_publication.php";
 }
+function enter_galery_action(){
+	$alb=consult_album();
+	$alb1=consult_album();		
+require "vistas/enter_galery.php";
+}
 
 function enter_slider_action(){
 	$sli=consult_slider();		
@@ -65,6 +70,12 @@ require "vistas/update_course.php";
 function enter_publication_model(){
 create_publication();
 }
+function enter_album_model(){
+create_album();
+}
+function enter_image_model(){
+create_image();
+}
 function view_publication_model(){
 view_publication();
 }
@@ -79,6 +90,9 @@ delete_publication();
 }
 function delete_slider_model(){
 delete_slider();
+}
+function delete_album_model(){
+delete_album();
 }
 function update_company_model(){
 update_company();

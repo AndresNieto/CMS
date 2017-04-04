@@ -315,6 +315,69 @@ function delete_slider(){
         
 }
 
+function create_album(){
+        if($_SERVER['REQUEST_METHOD']=="POST"){;
+        $conexion=conectar_base_de_datos();
+
+        $title= $_POST['title'];
+        $album = preg_replace('[\s+]','',$title);
+        $description= $_POST['description'];
+        
+        $consulta = "INSERT INTO album VALUES('','$album','$description')";
+        mysqli_query($conexion, $consulta);
+        cerrar_conexion_db($conexion);       
+    }
+
+   header("Location: /CMS/index.php/galeria");
+
+}
+
+function create_image(){
+        if($_SERVER['REQUEST_METHOD']=="POST"){
+        $conexion=conectar_base_de_datos();
+        $album= $_POST['name_album'];
+        $foto=$_FILES["foto"]["name"];
+        $ruta=$_FILES['foto']['tmp_name'];
+
+        $carpeta="./../site/images/galeria/".$album."/";
+        if (!file_exists($carpeta)) {  mkdir($carpeta,0777, true );}
+
+        $destino="./../site/images/galeria/".$album."/".$foto; 
+        move_uploaded_file($ruta, $destino);               
+        $consulta = "INSERT INTO image VALUES('',' $destino','$foto','$album')";
+        mysqli_query($conexion, $consulta);                
+        
+        cerrar_conexion_db($conexion);   
+        header("Location: /CMS/index.php/galeria");
+
+    }    
+}
+
+function consult_album(){
+        $conexion=conectar_base_de_datos();
+        $consulta="SELECT * FROM album";
+        $resultado=mysqli_query($conexion,$consulta);
+        $alb=array();$alb1=array();
+        while($fila=mysqli_fetch_assoc($resultado)){
+            $alb[]=$fila;$alb1[]=$fila;
+        }
+        cerrar_conexion_db($conexion);
+       
+        return $alb1;   
+}
+
+function delete_album(){
+        $conexion=conectar_base_de_datos();
+        $id = $_POST['id'];  
+        $album = $_POST['album'];
+        $consulta="DELETE FROM album WHERE id='$id'  AND DELETE FROM image where album='$album'";
+        $resultado=mysqli_query($conexion,$consulta);  echo $resultado;      
+        cerrar_conexion_db($conexion);
+        rmdir("./../site/images/galeria/".$album."/");
+    
+       //header("Location: /CMS/index.php/galeria");
+}
+
 function create_course(){
         if($_SERVER['REQUEST_METHOD']=="POST"){
         $conexion=conectar_base_de_datos();

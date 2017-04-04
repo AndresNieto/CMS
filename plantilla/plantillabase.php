@@ -102,6 +102,9 @@
                             <a href="/CMS/index.php/avisos"><i class="fa fa-bar-chart-o fa-fw"></i>Avisos<span class="fa arrow"></span></a>
                         </li>
                         <li>
+                            <a href="/CMS/index.php/galeria"><i class="fa fa-bar-chart-o fa-fw"></i>Galeria<span class="fa arrow"></span></a>
+                        </li>
+                        <li>
                             <a href="/CMS/index.php/suempresa"><i class="fa fa-bar-chart-o fa-fw"></i> Su empresa<span class="fa arrow"></span></a>
                              
                         </li>

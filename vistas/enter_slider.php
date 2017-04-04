@@ -40,7 +40,7 @@
 
       <div class="row">
         <div class="col-lg-12">
-          <center><h2>Publicaciones</h2></center>
+          <center><h2>Avisos</h2></center>
           <div class="panel panel-primary">
             <div class="panel-heading">
             <a type="button"class="btn btn-success glyphicon glyphicon-plus" data-toggle="modal"  data-target="#new" id="btn_new"></a>      
