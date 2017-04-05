@@ -343,7 +343,9 @@ function create_image(){
         if (!file_exists($carpeta)) {  mkdir($carpeta,0777, true );}
 
         $destino="./../site/images/galeria/".$album."/".$foto; 
-        move_uploaded_file($ruta, $destino);               
+        move_uploaded_file($ruta, $destino);  
+        chmod($carpeta, 0777);
+        chmod($destino, 0777);             
         $consulta = "INSERT INTO image VALUES('',' $destino','$foto','$album')";
         mysqli_query($conexion, $consulta);                
         

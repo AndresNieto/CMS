@@ -116,14 +116,6 @@
     if($uri=="/CMS/index.php/enter_image_model"){
      enter_image_model();
     }
-    if($uri=="/CMS/index.php/update_company_model"){
-     update_company_model();         
-    }
-
-    if($uri=="/CMS/index.php/update_slider_model"){
-     update_slider_model();         
-    }
-
     if($uri=="/CMS/index.php/delete_album_model"){
      delete_album_model();         
     }
