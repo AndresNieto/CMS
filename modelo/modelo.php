@@ -370,11 +370,27 @@ function delete_album(){
         $conexion=conectar_base_de_datos();
         $id = $_POST['id'];  
         $album = $_POST['album'];
-        $consulta="DELETE FROM album WHERE id='$id'  AND DELETE FROM image where album='$album'";
+        $consulta="DELETE a1, a2 FROM image AS a1 INNER JOIN album AS a2 WHERE a1.album=a2.title AND a2.id='$id'";
         $resultado=mysqli_query($conexion,$consulta);  echo $resultado;      
         cerrar_conexion_db($conexion);
-        rmdir("./../site/images/galeria/".$album."/");
-    
+        $directorio = "./../site/images/galeria/".$album;
+
+        
+         foreach(glob($directorio . "/*") as $archivos_carpeta)
+            {
+               
+         
+                if (is_dir($archivos_carpeta))
+                {
+                    eliminarDir($archivos_carpeta);
+                }
+                else
+                {
+                    unlink($archivos_carpeta);
+                }
+            }
+ 
+    rmdir($directorio);
        //header("Location: /CMS/index.php/galeria");
 }
 
